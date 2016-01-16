@@ -5,16 +5,16 @@
 #
 # Defining variables
 #
-objects = rbm10_VIC.o Begin.o Systmm.o Particle_Track.o \
-          Energy.o Julian.o tntrp.o Read_Forcing.o \
+objects = RBM_VIC.o BEGIN.o SYSTMM.o PARTICLE_TRACK.o \
+          ENERGY.o JULIAN.o TNTRP.o READ_INPUT.o \
           Block_Energy.o Block_Hydro.o Block_Network.o Block_WQ.o\
-	  Write.o	  
+	  WRITE.o	  
 f90comp = gfortran
 # Makefile
-rbm10_VIC: $(objects)
-	$(f90comp) -o rbm10_VIC $(objects)
-bgin.mod: Begin.o Begin.f90
-	$(f90comp) -c Begin.f90
+RBM_VIC: $(objects)
+	$(f90comp) -o RBM_VIC $(objects)
+#bgin.mod: Begin.o Begin.f90
+#	$(f90comp) -c BEGIN.f90
 Block_WQ.o: Block_WQ.f90
 	$(f90comp) -c Block_WQ.f90
 block_wq.mod: Block_WQ.o Block_WQ.f90
@@ -31,30 +31,31 @@ Block_Network.o: Block_Network.f90
 	$(f90comp) -c Block_Network.f90
 block_network.mod: Block_Network.o Block_Network.f90
 	$(f90comp) -c Block_Network.f90
-Begin.o: block_energy.mod block_network.mod block_hydro.mod Begin.f90
-	$(f90comp) -c Begin.f90
-Read_Forcing.o: block_energy.mod block_hydro.mod block_network.mod Read_Forcing.f90
-	$(f90comp) -c Read_Forcing.f90 
-systm.mod: Systmm.o Systmm.f90
-	$(f90comp) -c Systmm.f90
-Systmm.o: block_network.mod block_energy.mod block_hydro.mod Systmm.f90
-	$(f90comp) -c Systmm.f90
-Energy.o: block_energy.mod Energy.f90
-	$(f90comp) -c Energy.f90
-Particle_Track.o: block_hydro.mod block_network.mod Particle_Track.f90
-	$(f90comp) -c Particle_Track.f90
-Write.o: Write.f90
-	$(f90comp) -c Write.f90
-Julian.o: Julian.f90
-	$(f90comp) -c Julian.f90
-tntrp.o: tntrp.f90
-	$(f90comp) -c tntrp.f90
+BEGIN.o: block_energy.mod block_network.mod block_hydro.mod Begin.f90
+	$(f90comp) -c BEGIN.f90
+READ_INPUT.o: block_energy.mod block_hydro.mod block_network.mod READ_INPUT.f90
+	$(f90comp) -c READ_INPUT.f90 
+systm.mod: SYSTMM.o SYSTMM.f90
+	$(f90comp) -c SYSTMM.f90
+SYSTMM.o: block_network.mod block_energy.mod block_hydro.mod SYSTMM.f90
+	$(f90comp) -c SYSTMM.f90
+ENERGY.o: block_energy.mod ENERGY.f90
+	$(f90comp) -c ENERGY.f90
+PARTICLE_TRACK.o: block_hydro.mod block_network.mod PARTICLE_TRACK.f90
+	$(f90comp) -c PARTICLE_TRACK.f90
+WRITE.o: WRITE.f90
+	$(f90comp) -c WRITE.f90
+JULIAN.o: JULIAN.f90
+	$(f90comp) -c JULIAN.f90
+TNTRP.o: TNTRP.f90
+	$(f90comp) -c TNTRP.f90
 
-rbm10_VIC.o: bgin.mod systm.mod rbm10_VIC.f90
-	$(f90comp) -c rbm10_VIC.f90
+RBM_VIC.o: bgin.mod systm.mod RBM_VIC.f90
+	$(f90comp) -c RBM_VIC.f90
 
 # Cleaning everything
 clean:
-	rm bgin.mod block_energy.mod block_hydro.mod block_network.mod\
-           systm.mod rbm10_VIC
+#	rm bgin.mod block_energy.mod block_hydro.mod block_network.mod\
+	rm block_energy.mod block_hydro.mod block_network.mod\
+           systm.mod RBM_VIC
 	rm $(objects)

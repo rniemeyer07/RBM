@@ -1,49 +1,93 @@
-module BGIN
-!
-implicit none
-!
-! Integer variables 
-!
-    integer:: nwpd
-!
-! Character variables
-!
-    character (len=8) :: end_date,start_date     
-    character (len=8) :: lat
-    character (len=10):: long
-!
-! Integer variables
-!
-integer:: start_year,start_month,start_day
-integer:: end_year,end_month,end_day
-integer:: head_name,trib_cell
-integer:: jul_start,main_stem,nyear1,nyear2,nc,ncell,nseg
-integer:: ns_max_test,nndlta,node,ncol,nrow,nr,cum_sgmnt
-!
-! Logical variables
-!
-logical:: first_cell,source
-!
-! Real variables
-!
-  real :: rmile0,rmile1,xwpd
-!
-
-!
-contains
-!
-!
 Subroutine BEGIN(param_file,spatial_file)
 !
 use Block_Energy
+use Block_File_Names
 use Block_Hydro
 use Block_Network
 !
 implicit none
+!    
+    character(ch)                  :: end_date,start_date     
+    character(ch)                  :: lat
+    character(len=10)              :: long
+    character(len=200)             :: param_file,source_file,spatial_file
+    character(len=5),dimension(20) :: WQ_const
 !
-    character (len=200):: param_file,source_file,spatial_file
-    integer:: Julian
+    integer(i2b)                   :: Julian
+    integer(i2b)                   :: head_name,trib_cell
+    integer(i2b)                   :: jul_start,main_stem,nyear1,nyear2,nc,ncell,nseg
+    integer(i2b)                   :: ns_max_test,nndlta,node,nr,cum_sgmnt
+    integer(i2b)                   :: ns,no_sources
+    integer(i2b)                   :: nq,nnq
 !
+    logical(lg)                    :: first_cell
+!
+    real(sp)                       :: rmile0,rmile1,xwpd
+!
+!
+! Identify input/output files
+!
+! Identify the network file
+!
+  Net_File       = TRIM(inPrefix)//'_Network'
+  write(*,*) 'Network file:     '      ,Net_File
+!
+! Identify other necessary files
+!
+  Param_File     = TRIM(inPrefix)//'_Parameters'
+  write(*,*) 'Parameter file:   '      ,Param_File
+!
+  Source_File    = TRIM(inPrefix)//'_Source'
+  write(*,*) 'Source file:            ',Source_File
+!
+  Spatial_File   = TRIM(outPrefix)//'_Spat'
+  write(*,*) 'Spatial file:           ',Spatial_File
+!
+  CONST_file     = TRIM(outPrefix)//'_CONST'
+  write(*,*) 'Constituent output file: ',CONST_File
+!
+!
+OPEN(UNIT=90,FILE=TRIM(Net_File),STATUS='OLD')
+!
+!     Read header information from control file
+!
+read(90,*)
+read(90,'(A)') flow_file
+!
+! Define constituents to be modeled
+! 
+NQ_total=0
+!
+read(90,'(20a5)',ADVANCE='NO',EOR=100,END=100) WQ_const
+!
+100 continue
+!
+do nq=1,20
+  do nnq=1,20
+    if (TRIM(WQ_const(nq)) .eq. WQ_token(nnq)) then
+!
+! Test here to see if this will include a simulation of water temperature
+! Note: The constituent number for water temperature (nnq) = 1
+!
+      if (nnq .eq. 1) do_TEMP = .TRUE.
+      write(*,*) 'WQ_test ',nnq,WQ_const(nq)
+      NQ_total=NQ_total+1
+!
+! Establish constituent table
+!
+      CONST_Table(nq)=nnq
+!      
+    end if
+  end do
+end do
+!
+! Open the hydrologic forcing files
+ 
+
+! Open the heat forcing files if temperature is to be simulated
+!
+! Fetch the name of the directory with constituent input files
+
 !
 !   Mohseni parameters, if used
 !
@@ -63,7 +107,7 @@ write(*,'(2(2x,i4,2i2))')  &
 !
 jul_start = Julian(start_year,start_month,start_day)
 !
-read(90,*) nreach,flow_cells,heat_cells,source
+read(90,*) nreach,flow_cells,heat_cells,no_rows,no_cols
 !
 ! Allocate dynamic arrays
 !
@@ -85,14 +129,20 @@ read(90,*) nreach,flow_cells,heat_cells,source
  allocate(head_cell(nreach))
  allocate(segment_cell(nreach,ns_max))
  allocate(x_dist(nreach,0:ns_max))
+
 !
-! Check to see if there are point source inputs
-! 
-if (source) then
+! Read the source files using the constituent table (CONST_Table)
 !
    read(90,'(A)') source_file ! (WUR_WF_MvV_2011/05/23)
    print *,'source file: ', source_file ! (WUR_WF_MvV_2011/05/23)
    open(40,file=TRIM(source_file),status='old')
+!
+! Initialize headwaters values for those constituents that
+! are being simulated
+!
+do nr = 1,nreach
+  read(40,*) (CONST_init(nr,nq)=1,NQ_Total)
+end do
 !
 end if
 !
@@ -104,7 +154,7 @@ ncell=0
 ns_max_test=-1
 !
 !     Card Group IIb. Reach characteristics
-!
+!s
 do nr=1,nreach
 !
 !     Initialize NSEG, the total number of segments in this reach
@@ -128,11 +178,13 @@ do nr=1,nreach
     no_tribs(trib_cell)=no_tribs(trib_cell)+1
     trib(trib_cell,no_tribs(trib_cell))=nr
   end if
-!
+*****************************************************************************
+!   DON"T FORGET TO REMOVE THIS
 !     Reading Mohseni parameters for each headwaters (UW_JRY_2011/06/18)
 !
-  read(90,*) alphaMu(nr),beta(nr) &
-            ,gmma(nr),mu(nr),smooth_param(nr)
+!  read(90,*) alphaMu(nr),beta(nr) &
+!            ,gmma(nr),mu(nr),smooth_param(nr)
+*****************************************************************************
 !
 !     Reading Reach Element information
 !
@@ -157,7 +209,7 @@ do nr=1,nreach
 !     is entered manually into the network file (UW_JRY_2011/03/15)
 !
     read(90,'(5x,i5,5x,i5,8x,i5,6x,a8,6x,a10,7x,f10.0,i5)')  &
-              node,nrow,ncol,lat,long,rmile1,ndelta(ncell)
+              node,nrow(ncell),ncol(ncell),lat,long,rmile1,ndelta(ncell)
 !
 !    Set the number of segments of the default, if not specified
 !
@@ -182,7 +234,7 @@ do nr=1,nreach
 !   Write Segment List for mapping to temperature output (UW_JRY_2008/11/19)
 !
     open(22,file=TRIM(spatial_file),status='unknown') ! (changed by WUR_WF_MvV_2011/01/05)
-    write(22,'(4i6,1x,a8,1x,a10,i5)') nr,ncell,nrow,ncol,lat,long,nndlta
+    write(22,'(4i6,1x,a8,1x,a10,i5)') nr,ncell,nrow(ncell),ncol(ncell),lat,long,nndlta
 !
 ! 
 !
@@ -207,7 +259,10 @@ if(ns_max_test.gt.ns_max) then
   stop
 end if
 !
+! NOTE!!: This is a hardwired limitation on the number of daily time steps
+!
 nwpd=1
+!
 xwpd=nwpd
 dt_comp=86400./xwpd
 !
@@ -219,5 +274,3 @@ dt_comp=86400./xwpd
 !
 !
 end subroutine BEGIN
-!
-   END Module BGIN
