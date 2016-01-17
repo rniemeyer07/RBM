@@ -6,22 +6,22 @@ module block_wq
 ! DO       ! 2  Dissolved Oxygen
 ! BOD      ! 3  Biochemical Oxygen Demand
 ! COLIF    ! 4  Coliform Bacteria
-! PO4      ! 5  Orthophosphorus
-! P_Org    ! 6  Organic Phosphorus
-! NO2      ! 7  Nitrite
-! NO3      ! 8  Nitrate
-! NH4      ! 9  Ammonium
-! pH       ! 10 pH
-! H2CO3    ! 11 Carbonic Acid
-! HCO3     ! 12 Bicarbonate
-! CO3      ! 13 Carabon Trioxide
-! ALK      ! 14 Alkalinity
-! ALGA1    ! 15 Algae Type 1
-! ALGA2    ! 16 Algae Type 2
-! TDS      ! 17 Total Dissolved Solids
-! TSS      ! 18 Total Suspended Solids
-! ZOO_1    ! 19 Zooplankton Type 1
-! ZOO_2    ! 20 Zooplankton Type 2
+! TSS      ! 5  Total Suspended Solids
+! PO4      ! 6  Orthophosphorus
+! P_Org    ! 7  Organic Phosphorus
+! NO2      ! 8  Nitrite
+! NO3      ! 9  Nitrate
+! NH4      ! 10 Ammonium
+! pH       ! 11 pH
+! H2CO3    ! 12 Carbonic Acid
+! HCO3     ! 13 Bicarbonate
+! CO3      ! 14 Carabon Trioxide
+! ALK      ! 15 Alkalinity
+! ALGA1    ! 16 Algae Type 1
+! ALGA2    ! 17 Algae Type 2
+! ZOO_1    ! 18 Zooplankton Type 1
+! ZOO_2    ! 19 Zooplankton Type 2
+! TDS      ! 30 Total Dissolved Solids
 ! 
 ! All water quality constituents are folded into the variable, CONST
 ! for purposes of the making the code more compact. The variables will

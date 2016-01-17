@@ -26,28 +26,37 @@ implicit none
 !
 !
 ! Identify input/output files
+! Identify and open the parameter file
 !
-! Identify the network file
+  Param_File     = TRIM(inPrefix)//'_Parameters'
+  write(*,*) 'Parameter file:   '      ,Param_File
+  OPEN(UNIT=30,FILE=TRIM(Param_File),STATUS='OLD')
+
+!
+! Identify and open the source file
+!
+  Source_File    = TRIM(inPrefix)//'_Source'
+  write(*,*) 'Source file:            ',Source_File
+  OPEN(UNIT=40,FILE=TRIM(Source_File),STATUS='OLD')
+!
+! Identify and open the output file
+!
+  CONST_file     = TRIM(outPrefix)//'_CONST'
+  write(*,*) 'Constituent output file: ',CONST_File
+  OPEN(UNIT=60,FILE=TRIM(Net_File),STATUS='OLD')
+!
+! Identify and open the spatial mapping file
+!
+  Spatial_File   = TRIM(outPrefix)//'_Spat'
+  write(*,*) 'Spatial file:           ',Spatial_File
+  OPEN(UNIT=70,FILE=TRIM(Spatial_File),STATUS='OLD')
+!
+! Identify and open the network file
 !
   Net_File       = TRIM(inPrefix)//'_Network'
   write(*,*) 'Network file:     '      ,Net_File
 !
-! Identify other necessary files
-!
-  Param_File     = TRIM(inPrefix)//'_Parameters'
-  write(*,*) 'Parameter file:   '      ,Param_File
-!
-  Source_File    = TRIM(inPrefix)//'_Source'
-  write(*,*) 'Source file:            ',Source_File
-!
-  Spatial_File   = TRIM(outPrefix)//'_Spat'
-  write(*,*) 'Spatial file:           ',Spatial_File
-!
-  CONST_file     = TRIM(outPrefix)//'_CONST'
-  write(*,*) 'Constituent output file: ',CONST_File
-!
-!
-OPEN(UNIT=90,FILE=TRIM(Net_File),STATUS='OLD')
+  OPEN(UNIT=90,FILE=TRIM(Net_File),STATUS='OLD')
 !
 !     Read header information from control file
 !
@@ -134,8 +143,8 @@ read(90,*) nreach,flow_cells,heat_cells,no_rows,no_cols
 ! Read the source files using the constituent table (CONST_Table)
 !
    read(90,'(A)') source_file ! (WUR_WF_MvV_2011/05/23)
-   print *,'source file: ', source_file ! (WUR_WF_MvV_2011/05/23)
-   open(40,file=TRIM(source_file),status='old')
+   print *,'source file: ', Source_File ! (WUR_WF_MvV_2011/05/23)
+   open(40,file=TRIM(Source_File),status='old')
 !
 ! Initialize headwaters values for those constituents that
 ! are being simulated

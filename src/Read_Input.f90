@@ -10,22 +10,65 @@ IMPLICIT NONE
 !
 contains
 SUBROUTINE READ_PARAMETERS
-!
 ! 
-integer(I4B), private             :: nc,nq,nr
-integer(I4B),dimension(:),private :: nwq
+character(ch), private              :: token
+integer(I4B), private               :: nc,nq,nr
+integer(I4B),dimension(:),private   :: nwq
 real(SP),dimension(:,:),private     :: dummy_C_init,dummy_Source
 !
-
+!*****************************************************************
+! READ KINETICS parameters first based on the assumption they
+! are constant throughout the system.
+!*****************************************************************
+!
+!  Select NQ_total
+!
+do nq = 1,No_total
+  read(30,*)  token
+  select case (token)
+!
+! Water temperature
+!
+case (‘TEMP’)
 do nr=1,NREACH
 !
-! Read Mohseni paramters for headwaters, if water temperature is to 
+! Read Mohseni parameters for headwaters, if water temperature is to 
 ! be simulated
 !
-  if (do_TEMP) then
-    read(40,*) (MU(nr),ALPHAMU(nr),BETA(nr),GMMA(nr),SMOOTH_PARAM(nr)
-  end if
-  
+  read(30,*) (MU(nr),ALPHAMU(nr),BETA(nr),GMMA(nr),SMOOTH_PARAM(nr)
+end do
+!
+! Read the remaining temperature parameters
+!
+read(30,*) evap_a,evap_b,evap_c,rb,r_short,r_atmo
+!
+! Read DO parameters
+!
+case (‘DO’)
+!
+read(30,*) Q10_do,reaer_a,reaer_b,reaer_c,
+!
+! Read BOD parameters
+!
+case (‘BOD’)
+!
+read(30,*) Q10_bod,k_bod
+!
+!
+! Read COLIF parameters
+!
+case (‘COLIF’)
+!
+read(30,*) Q10_colif,k_colif
+!
+! Read TSS parameters
+!
+case (‘TSS’)
+!
+read(30,*) w_settl
+!
+end select
+!   
   do nc=1,NO_CELLS(nr)
     read(50,*) (nwq(nq),dummy_C_init(nq),nq=1,NQ_total)
     do nq = 1,NQ_total
@@ -36,10 +79,6 @@ do nr=1,NREACH
       CONST_src(nq)=dummy_Source(nwq(nq))
     end do
 !
-! Read kinetics parameters here, but postpone until non-conservative 
-! constituents like DO, BOD, N, and P are included
-!
-! READ KINETICS parameters next
 !
 !
   end do
