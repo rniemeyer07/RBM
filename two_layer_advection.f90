@@ -55,11 +55,6 @@ real  :: flow_in_hyp_x, flow_in_epi_x, flow_out_epi_x, flow_out_hyp_x
 real  :: epix, hypox, dif_epi_x, dif_hyp_x, x, flow_epi_x, flow_hyp_x
 real  :: residence
 !
-depth_total = 30
-width = 200
-length = 17000
-area = width*length
-K_eql = 0.05   ! Time constant for heat flux in the epilimnion
 !
 delta_t = 1 ! time is days,  assumes all units in equations are in days
 !
@@ -92,11 +87,12 @@ omega = 2.*PI/365.
 width = 200
 length = 17000
 area = width*length
+K_eql = 0.05   ! Time constant for heat flux in the epilimnion
 delta_t = 1 ! time is days,  assumes all units in equations are in days
 !
 ! Add delta_t_sec to simplify JRY 1/27/2016
 !
-delta_t_sec = 84600.
+delta_t_sec = 86400.
 depth_total = 20
 depth_e = 5
 depth_h = 15
