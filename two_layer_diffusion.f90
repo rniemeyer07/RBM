@@ -88,7 +88,7 @@ delta_t = 1 ! time is days,  assumes all units in equations are in days
 !
 ! Add delta_t_sec to simplify JRY 1/27/2016
 !
-delta_t_sec = 84600.
+delta_t_sec = 86400.
 depth_total = 20
 depth_e = 5
 depth_h = 15
