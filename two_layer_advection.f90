@@ -60,7 +60,7 @@ delta_t = 1 ! time is days,  assumes all units in equations are in days
 !
 ! Add delta_t_sec to simplify JRY 1/27/2016
 !
-delta_t_sec = 84600.
+delta_t_sec = 86400.
 !
 !-------------------------------------------------------------------------
 !     generate flow and energey temporal variables
@@ -88,11 +88,7 @@ width = 200
 length = 17000
 area = width*length
 K_eql = 0.05   ! Time constant for heat flux in the epilimnion
-delta_t = 1 ! time is days,  assumes all units in equations are in days
 !
-! Add delta_t_sec to simplify JRY 1/27/2016
-!
-delta_t_sec = 86400.
 depth_total = 20
 depth_e = 5
 depth_h = 15
