@@ -16,7 +16,7 @@ implicit none
 !
 integer:: start_year,start_month,start_day
 integer:: end_year,end_month,end_day
-integer:: head_name,trib_cell
+integer:: cell_check,head_name,trib_cell
 integer:: jul_start,main_stem,nyear1,nyear2,nc,ncell,nseg
 integer:: ns_max_test,nndlta,node,ncol,nrow,nr,cum_sgmnt
 !
@@ -26,7 +26,9 @@ logical:: first_cell,source
 !
 ! Real variables
 !
-  real :: rmile0,rmile1,xwpd
+  real            :: rmile0,rmile1,xwpd
+  real            :: cl_inp,heat_inp
+  real, parameter :: rho_Cp=1000. ! Units are kcal/m**3/deg K
 !
 
 !
@@ -64,6 +66,7 @@ write(*,'(2(2x,i4,2i2))')  &
 jul_start = Julian(start_year,start_month,start_day)
 !
 read(90,*) nreach,flow_cells,heat_cells,source
+write(*,*) nreach,flow_cells,heat_cells,source
 !
 ! Allocate dynamic arrays
 !
@@ -72,6 +75,7 @@ read(90,*) nreach,flow_cells,heat_cells,source
  allocate(alphamu(nreach))
  allocate(beta(nreach))
  allocate(gmma(nreach))
+ allocate(cl_head(nreach))
  allocate (smooth_param(nreach))
  allocate(dx(heat_cells))
  allocate(no_celm(nreach))
@@ -85,17 +89,9 @@ read(90,*) nreach,flow_cells,heat_cells,source
  allocate(head_cell(nreach))
  allocate(segment_cell(nreach,ns_max))
  allocate(x_dist(nreach,0:ns_max))
-!
-! Check to see if there are point source inputs
-! 
-if (source) then
-!
-   read(90,'(A)') source_file ! (WUR_WF_MvV_2011/05/23)
-   print *,'source file: ', source_file ! (WUR_WF_MvV_2011/05/23)
-   open(40,file=TRIM(source_file),status='old')
-!
-end if
-!
+ allocate(chloride(nreach,0:ns_max))
+ allocate(thermal(nreach,0:ns_max))
+ !
 !     Start reading the reach date and initialize the reach index, NR
 !     and the cell index, NCELL
 !
@@ -128,11 +124,16 @@ do nr=1,nreach
     no_tribs(trib_cell)=no_tribs(trib_cell)+1
     trib(trib_cell,no_tribs(trib_cell))=nr
   end if
+  write(*,*)  'Check point 1'
 !
 !     Reading Mohseni parameters for each headwaters (UW_JRY_2011/06/18)
 !
   read(90,*) alphaMu(nr),beta(nr) &
-            ,gmma(nr),mu(nr),smooth_param(nr)
+            ,gmma(nr),mu(nr),smooth_param(nr)                                &
+!
+! Initial values for chloride
+!
+            ,cl_head(nr)
 !
 !     Reading Reach Element information
 !
@@ -144,7 +145,24 @@ do nr=1,nreach
 !
     if (source) then
 !
-!  Place holder for point source input
+!   Read chloride source file
+!
+      read(40,*) cell_check,cl_inp
+      write(*,*) 'Chloride',cell_check,ncell,cl_inp
+      if (cell_check .ne. ncell) then
+        write(*,*) 'Chloride input file error. Missmatch with ncell'
+      end if
+!
+!   Read thermal file
+!      
+!     read(50,*) cell_check,heat_inp
+      if (cell_check .ne. ncell) then
+        write(*,*) 'Thermal input file error. Missmatch with ncell'
+      end if
+!
+! Convert kcal/m**2/sec to deg K/sec
+!
+      heat_inp=heat_inp/rho_Cp
 !
     end if 
 !
@@ -157,7 +175,8 @@ do nr=1,nreach
 !     is entered manually into the network file (UW_JRY_2011/03/15)
 !
     read(90,'(5x,i5,5x,i5,8x,i5,6x,a8,6x,a10,7x,f10.0,i5)')  &
-              node,nrow,ncol,lat,long,rmile1,ndelta(ncell)
+              node,nrow,ncol,lat,long,rmile1,ndelta(ncell)
+
 !
 !    Set the number of segments of the default, if not specified
 !
@@ -176,6 +195,21 @@ do nr=1,nreach
 200 continue
     nndlta=nndlta+1
     nseg=nseg+1
+!
+!  Add the sources if nndlta = 2
+!
+    if (nndlta .eq. 2) then
+!
+!  Add chloride
+!
+      chloride(nreach,nseg) = cl_inp
+!
+!  Add thermal
+!
+      thermal(nreach,nseg)  = heat_inp
+!      
+    end if         
+! 
     segment_cell(nr,nseg)=ncell
     x_dist(nr,nseg)=x_dist(nr,nseg-1)-dx(ncell)
 !

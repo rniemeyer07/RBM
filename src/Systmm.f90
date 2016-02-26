@@ -6,13 +6,13 @@ integer:: nr_trib,ntrb,ntribs
 integer:: nrec_flow,nrec_heat
 integer:: n1,n2,nnd,nobs,ndays,nyear,nd_year,ntmp
 integer:: npart,nseg,nwpd 
-real::    dt_comp,dt_calc,dt_total,hpd,Q1,Q2,q_dot,q_surf,z
+real::    dt_comp,dt_calc,dt_total,hpd,Q1,Q2,Q_mps,q_dot,q_surf,z
 real   :: rminsmooth
-real   :: T_0,T_dist
+real   :: Cl_0,Cl_dist,T_0,T_dist
 real(8):: time
 real   :: x,x_bndry,xd,xdd,xd_year,x_head,xwpd,year
 real,dimension(:),allocatable:: T_head,T_smth,T_trib
-real,dimension(:,:,:),allocatable:: temp
+!real,dimension(:,:,:),allocatable:: temp
 !
 ! Indices for lagrangian interpolation
 !
@@ -26,7 +26,7 @@ real, parameter:: pi=3.14159,rfac=304.8
 !
 contains
 !
-SUBROUTINE SYSTMM(temp_file,param_file)
+SUBROUTINE SYSTMM
 !
 use Block_Energy
 use Block_Hydro
@@ -34,17 +34,22 @@ use Block_Network
 !
 Implicit None
 !
-character (len=200):: temp_file
-character (len=200):: param_file
-!
 integer::njb
 !
 logical:: DONE,LEAP_YEAR
 !
+real, parameter :: cuft_cum=1./(3.2808*3.2808*3.2808)
 real             :: tntrp
-real,dimension(4):: ta,xa
+real,dimension(4):: cla,ta,xa
 !
 ! Allocate the arrays
+!
+! Allocate chloride
+!
+allocate (chlr(nreach,-2:ns_max,2))
+allocate (Cl_trib(nreach))
+!
+!  Allocate water temperature
 !
 allocate (temp(nreach,-2:ns_max,2))
 allocate (T_head(nreach))
@@ -80,12 +85,6 @@ T_head=4.0
 ! Initialize smoothed air temperatures for estimating headwaters temperatures
 !
 T_smth=4.0
-
-!
-!     open the output file
-!
-
-open(20,file=TRIM(temp_file),status='unknown')
 !
 !
 ! Initialize dummy counters that facilitate updating simulated values
@@ -113,6 +112,7 @@ do nyear=start_year,end_year
     year=nyear
     xd=nd
     xd_year=nd_year
+!     
 !     Start the numbers of days-to-date counter
 !
     ndays=ndays+1
@@ -149,10 +149,22 @@ do nyear=start_year,end_year
         T_head(nr)=mu(nr)+(alphaMu(nr) &
                   /(1.+exp(gmma(nr)*(beta(nr)-T_smth(nr)))))  
 !
+!  Initialize headwaters temperatures
+!
       temp(nr,0,n1)=T_head(nr)
       temp(nr,-1,n1)=T_head(nr)
       temp(nr,-2,n1)=T_head(nr)
       temp(nr,no_celm(nr)+1,n1)=temp(nr,no_celm(nr),n1)
+!
+!  Initialize headwaters chlorides
+!
+      chlr(nr,0,n1)=Cl_head(nr)
+      chlr(nr,-1,n1)=Cl_head(nr)
+      chlr(nr,-2,n1)=Cl_head(nr)
+      chlr(nr,no_celm(nr)+1,n1)=chlr(nr,no_celm(nr),n1)
+!
+!  Location of parcel at headwaters
+!     
       x_head=x_dist(nr,0)
       x_bndry=x_head-50.0
 !
@@ -181,28 +193,39 @@ do nyear=start_year,end_year
 !     Interpolation at the upstream boundary
 !
           if(nseg.eq.1) then
-            T_0 = T_head(nr)
+            Cl_0 = Cl_head(nr)
+            T_0  = T_head(nr)
           else 
 !
 !     Interpolation at the downstream boundary
 !
-          if(nseg.eq.no_celm(nr)) npndx=3
+            if(nseg.eq.no_celm(nr)) npndx=3
 !
-          do ntrp=1,nterp(npndx)
-            npart=nseg+ntrp+ndltp(npndx)
-            xa(ntrp)=x_dist(nr,npart)
-            ta(ntrp)=temp(nr,npart,n1)
-          end do
-          x=x_part(ns)
+            do ntrp=1,nterp(npndx)
+              npart=nseg+ntrp+ndltp(npndx)
+              xa(ntrp)=x_dist(nr,npart)
+!
+!  Interpolate chloride
+!            
+              cla(ntrp) = chlr(nr,npart,n1)
+!
+!  Interpolate temperature
+!            
+              ta(ntrp)=temp(nr,npart,n1)
+            end do
+            x=x_part(ns)
+
 !
 !     Call the interpolation function
 !
-          T_0=tntrp(xa,ta,x,nterp(npndx))
+            T_0  = tntrp(xa,ta,x,nterp(npndx))
+            Cl_0 = tntrp(xa,cla,x,nterp(npndx))
           end if
 !
 300 continue
 350 continue
-!          dt_calc=dt_part(ns)
+!
+          dt_calc=dt_part(ns)
           nncell=segment_cell(nr,nstrt_elm(ns))
 !
 !    Set NCELL0 for purposes of tributary input
@@ -214,6 +237,19 @@ do nyear=start_year,end_year
             call energy(T_0,q_surf,nncell)
             q_dot=(q_surf/(z*rfac))
             T_0=T_0+q_dot*dt_calc
+!
+!  Convert flow to meters**3/second
+!
+            Q_mps = cuft_cum*Q_in(nncell)       
+!
+!  Add chloride loading
+!
+            Cl_0 = Cl_0 + chloride(nr,nseg)/Q_mps            
+!
+!  Add thermal loading
+!
+            T_0  = T_0 + thermal(nr,nseg)/Q_mps
+
             if(T_0.lt.0.0) T_0=0.0
 !
 !     Look for a tributary.
@@ -225,7 +261,14 @@ do nyear=start_year,end_year
                 nr_trib=trib(nncell,ntrb)
                 if(Q_trib(nr_trib).gt.0.0) then
                   Q2=Q1+Q_trib(nr_trib)
-                  T_0=(Q1*T_0+Q_trib(nr_trib)*T_trib(nr_trib))/Q2
+! 
+!  Update chloride with tributary input
+!                 
+                  Cl_0 = (Q1*Cl_0+Q_trib(nr_trib)*Cl_trib(nr_trib))/Q2
+! 
+!  Update water temperature with tributary input
+!                 
+                  T_0  = (Q1*T_0+Q_trib(nr_trib)*T_trib(nr_trib))/Q2
                 end if
 !
                 Q1=Q_out(nncell)
@@ -254,7 +297,14 @@ do nyear=start_year,end_year
           end do
           if (T_0.lt.0.5) T_0=0.5
             temp(nr,ns,n2)=T_0
-	    T_trib(nr)=T_0
+!
+!  Update tributary chloride
+!
+      Cl_trib(nr) = Cl_0            
+!
+!  Update tributary water temperature
+!
+	    T_trib(nr)  = T_0
 !
 !   Write all temperature output UW_JRY_11/08/2013
 !   The temperature is output at the beginning of the 
@@ -262,7 +312,9 @@ do nyear=start_year,end_year
 !   other points by some additional code that keys on the
 !   value of ndelta (now a vector)(UW_JRY_11/08/2013)
 !
-            call WRITE(time,nd,nr,ncell,ns,T_0,T_head(nr),dbt(ncell))
+            if (mod(ns,2) .eq. 0) then
+              call WRITE(time,nd,nr,ncell,ns,T_0,Cl_0,T_head(nr),dbt(ncell))
+            end if
 !
 !     End of computational element loop
 !

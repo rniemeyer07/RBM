@@ -49,9 +49,21 @@ character (len=200 ):: flow_file
 character (len=200 ):: heat_file
 character (len=200 ):: net_file
 character (len=200 ):: param_file
-character (len=200 ):: temp_file
 character (len=200 ):: spatial_file
 character (len=8)   :: start_data,end_data     
+!
+! Source files
+!
+character (len=200 ):: chloride_file
+character (len=200 ):: thermal_file
+character (len=200 ):: cl_background
+character (len=200 ):: cl_headwaters
+!
+! Output files
+!
+character (len=200 ):: temp_out_file
+character (len=200 ):: cl_out_file
+!
 integer iargc
 integer numarg
 
@@ -75,15 +87,46 @@ call getarg ( 2, outPrefix )
 !
 ! Identify input/output files
 !
+! Input files
+!
 net_file      = TRIM(inPrefix)//'_Network'
+open(90,file=net_file,status='old')
+!
 param_file    = TRIM(inPrefix)//'_Parameters'
+open(30,file=param_file,status='old')
+!
+chloride_file = TRIM(inPrefix)//'_Cl_PointSource'
+open(40,file=chloride_file,status='old')
+!
+! Chloride background and headwaters files
+!
+cl_background = TRIM(inPrefix)//'_Cl_background'
+open(45,file=cl_background,status='old')
+!
+! Thermal file
+!
+thermal_file  = TRIM(inPrefix)//'_T_PointSource'
+open(50,file=thermal_file,status='old')
+!
+! Output files
+!
+cl_out_file = TRIM(outPrefix)//'.Chloride'
+open(20,file=cl_out_file,status='unknown')
+!
 spatial_file  = TRIM(outPrefix)//'.Spat'
-temp_file     = TRIM(outPrefix)//'.Temp'
+open(22,file=spatial_file,status='unknown')
+!
+temp_out_file     = TRIM(outPrefix)//'.Temp'
+open(25,file=temp_out_file,status='unknown')
+!
+! Output files
 !
 write(*,*) 'Spatial file: ',spatial_file         
 write(*,*) 'Network file    : ',net_file
-write(*,*) 'Parameter file  : ',param_file!
-write(*,*) 'Temperature file: ',temp_file
+write(*,*) 'Parameter file  : ',param_file
+!
+write(*,*) 'Chloride file: ',cl_out_file
+write(*,*) 'Temperature file: ',temp_out_file
 !
 OPEN(UNIT=90,FILE=TRIM(net_file),STATUS='OLD')
 !
@@ -116,7 +159,7 @@ CALL BEGIN(param_file, spatial_file)
 !
 !     SUBROUTINE SYSTMM performs the simulations
 !
-CALL SYSTMM(temp_file,param_file) ! (WUR_WF_MvV_2011/01/05)
+CALL SYSTMM 
 !
 !     Close files after simulation is complete
 !
