@@ -11,8 +11,6 @@ real   :: rminsmooth
 real   :: Cl_0,Cl_dist,T_0,T_dist
 real(8):: time
 real   :: x,x_bndry,xd,xdd,xd_year,x_head,xwpd,year
-real,dimension(:),allocatable:: T_head,T_smth,T_trib
-!real,dimension(:,:,:),allocatable:: temp
 !
 ! Indices for lagrangian interpolation
 !
@@ -34,7 +32,8 @@ use Block_Network
 !
 Implicit None
 !
-integer::njb
+integer             :: njb
+integer             :: spinup_time ! Time in days
 !
 logical:: DONE,LEAP_YEAR
 !
@@ -55,6 +54,9 @@ allocate (temp(nreach,-2:ns_max,2))
 allocate (T_head(nreach))
 allocate (T_smth(nreach))
 allocate (T_trib(nreach))
+!
+!  Allocate hydrologic input
+!
 allocate (depth(heat_cells))
 allocate (Q_in(heat_cells))
 allocate (Q_out(heat_cells))
@@ -63,6 +65,9 @@ allocate (Q_trib(nreach))
 allocate (width(heat_cells))
 allocate (u(heat_cells))
 allocate (dt(2*heat_cells))
+!
+!  Allocate thermal energy budget input
+!
 allocate (dbt(heat_cells))
 allocate (ea(heat_cells))
 allocate (Q_ns(heat_cells))
@@ -98,17 +103,20 @@ hpd=1./xwpd
 !
 !     Year loop starts
 !
-do nyear=start_year,end_year
+!do nyear=start_year,end_year
+do nyear=start_year,1971
   write(*,*) ' Simulation Year - ',nyear,start_year,end_year
   nd_year=365
 !
 ! Check to see if it is a leap year
 !
   if (LEAP_YEAR(nyear)) nd_year=366
+  write(*,*) 'Days in year',nd_year
 !
 !     Day loop starts
 !
   DO nd=1,nd_year
+!
     year=nyear
     xd=nd
     xd_year=nd_year
@@ -220,7 +228,7 @@ do nyear=start_year,end_year
 !
             T_0  = tntrp(xa,ta,x,nterp(npndx))
             Cl_0 = tntrp(xa,cla,x,nterp(npndx))
-          end if
+            end if
 !
 300 continue
 350 continue
@@ -244,13 +252,16 @@ do nyear=start_year,end_year
 !
 !  Add chloride loading
 !
-            Cl_0 = Cl_0 + chloride(nr,nseg)/Q_mps            
+            Cl_0 = Cl_0 + chloride(nr,nseg)/Q_mps 
+!
+            if(Cl_0 .lt. 0.0) Cl_0 = 0.0
 !
 !  Add thermal loading
 !
             T_0  = T_0 + thermal(nr,nseg)/Q_mps
-
-            if(T_0.lt.0.0) T_0=0.0
+!
+            if(T_0 .lt. 0.0) T_0=0.0
+            write(60,*) nr,nseg, chloride(nr,nseg),Cl_0,thermal(nr,nseg),T_0
 !
 !     Look for a tributary.
 !
@@ -264,11 +275,11 @@ do nyear=start_year,end_year
 ! 
 !  Update chloride with tributary input
 !                 
-                  Cl_0 = (Q1*Cl_0+Q_trib(nr_trib)*Cl_trib(nr_trib))/Q2
+                  Cl_0 = (Q1*Cl_0 + Q_trib(nr_trib)*Cl_trib(nr_trib))/Q2
 ! 
 !  Update water temperature with tributary input
 !                 
-                  T_0  = (Q1*T_0+Q_trib(nr_trib)*T_trib(nr_trib))/Q2
+                  T_0  = (Q1*T_0 + Q_trib(nr_trib)*T_trib(nr_trib))/Q2
                 end if
 !
                 Q1=Q_out(nncell)
@@ -282,6 +293,7 @@ do nyear=start_year,end_year
               T_0=(Q1*T_0+Q_diff(nncell)*T_dist)/Q2
               Q1=Q2
             end if
+            if (T_0.lt.0.5) T_0 =0.5
 500 continue
             nseg=nseg+1
             nncell=segment_cell(nr,nseg)
@@ -295,8 +307,11 @@ do nyear=start_year,end_year
             dt_calc=dt(nncell)
             dt_total=dt_total+dt_calc
           end do
-          if (T_0.lt.0.5) T_0=0.5
-            temp(nr,ns,n2)=T_0
+ !
+ !  Update chloride and water temperture
+ !         
+          chlr(nr,ns,n2) = Cl_0
+          temp(nr,ns,n2) = T_0
 !
 !  Update tributary chloride
 !
@@ -313,7 +328,7 @@ do nyear=start_year,end_year
 !   value of ndelta (now a vector)(UW_JRY_11/08/2013)
 !
             if (mod(ns,2) .eq. 0) then
-              call WRITE(time,nd,nr,ncell,ns,T_0,Cl_0,T_head(nr),dbt(ncell))
+              call WRITE(time,nd,nr,ncell,ns,T_0,Cl_0,T_head(nr),dbt(ncell),chloride(nr,ns),Q_in(ncell))
             end if
 !
 !     End of computational element loop

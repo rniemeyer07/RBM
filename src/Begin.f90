@@ -14,9 +14,9 @@ implicit none
 !
 ! Integer variables
 !
-integer:: start_year,start_month,start_day
+integer:: start_year,start_month,start_day,cell_45
 integer:: end_year,end_month,end_day
-integer:: cell_check,head_name,trib_cell
+integer:: cell_check_cl,cell_check_heat,head_name,trib_cell
 integer:: jul_start,main_stem,nyear1,nyear2,nc,ncell,nseg
 integer:: ns_max_test,nndlta,node,ncol,nrow,nr,cum_sgmnt
 !
@@ -124,7 +124,6 @@ do nr=1,nreach
     no_tribs(trib_cell)=no_tribs(trib_cell)+1
     trib(trib_cell,no_tribs(trib_cell))=nr
   end if
-  write(*,*)  'Check point 1'
 !
 !     Reading Mohseni parameters for each headwaters (UW_JRY_2011/06/18)
 !
@@ -147,16 +146,17 @@ do nr=1,nreach
 !
 !   Read chloride source file
 !
-      read(40,*) cell_check,cl_inp
-      write(*,*) 'Chloride',cell_check,ncell,cl_inp
-      if (cell_check .ne. ncell) then
+      read(40,*) cell_check_cl,cl_inp
+      write(*,*) 'Chloride',cell_check_cl,ncell,cl_inp
+      if (cell_check_cl .ne. ncell) then
         write(*,*) 'Chloride input file error. Missmatch with ncell'
       end if
 !
 !   Read thermal file
 !      
-!     read(50,*) cell_check,heat_inp
-      if (cell_check .ne. ncell) then
+      read(50,*) cell_check_heat,heat_inp
+      write(*,*) cell_check_heat,heat_inp
+      if (cell_check_heat .ne. ncell) then
         write(*,*) 'Thermal input file error. Missmatch with ncell'
       end if
 !
@@ -202,11 +202,13 @@ do nr=1,nreach
 !
 !  Add chloride
 !
-      chloride(nreach,nseg) = cl_inp
+      chloride(nr,nseg) = cl_inp
+      write(55,*) nreach,nseg,chloride(nr,nseg)
 !
 !  Add thermal
 !
-      thermal(nreach,nseg)  = heat_inp
+      thermal(nr,nseg)  = heat_inp
+      write(56,*) nreach,nseg,thermal(nr,nseg)
 !      
     end if         
 ! 

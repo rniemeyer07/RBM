@@ -15,14 +15,15 @@ module Block_Hydro
     real, dimension(:),   allocatable  :: Q_out
     real, dimension(:),   allocatable  :: Q_diff
     real, dimension(:,:), allocatable  :: Q_nps
-    real, dimension(:),   allocatable  :: T_trib,Cl_trib
+    real, dimension(:),   allocatable  :: Cl_trib
+    real,dimension(:),    allocatable  :: T_smth,T_trib
     real, dimension(:,:), allocatable  :: chloride,temp_nps,thermal
     real, dimension(:,:), allocatable  :: x_dist
     real, dimension(:,:,:), allocatable :: chlr,temp
 !
 !  Added headwaters variable for chloride here as temporary fix to water quality model
 !   
-    real, dimension(:),   allocatable  :: Cl_head
+    real, dimension(:),   allocatable  :: T_head,Cl_head
 
 
 end module Block_Hydro

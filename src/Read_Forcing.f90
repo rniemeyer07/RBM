@@ -24,8 +24,7 @@ do nr=1,nreach
            ,rec=nrec_flow) nnd,ncell &
            ,Q_in(no_heat),Q_out(no_heat),Q_diff(no_heat) &  
            ,depth(no_heat),width(no_heat),u(no_heat)
-
-!
+if (nr.eq.36) write(70,*) 'nc = ',nc,'Q_in - ',Q_in(no_heat)
     if(u(no_heat).lt.0.01) u(no_heat)=0.01
     if(ncell.ne.no_heat) write(*,*) 'Flow file error',ncell,no_heat 
 !
@@ -79,7 +78,8 @@ do nr=1,nreach
 !  take the values of the segment to which it is tributary
 !
   Q_in(ncell)=Q_out(ncell-1)
-!  Q_out(ncell)=Q_in(ncell-1)
+!
+  Q_out(ncell)=Q_in(ncell-1)
   Q_diff(no_heat)=0.0
   u(no_heat)=u(no_heat-1)
   depth(no_heat)=depth(no_heat-1)
