@@ -1,0 +1,8 @@
+# Object code
+*.o
+# Compiled modules
+*.mod
+# Tilde files
+*.~
+# RBM executable
+rbm10_VIC
