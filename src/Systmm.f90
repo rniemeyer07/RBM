@@ -3,7 +3,6 @@ Module SYSTM
 integer:: ncell,nncell,ncell0,nc_head,no_flow,no_heat
 integer:: nc,nd,ndd,nm,nr,ns
 integer:: nr_trib,ntrb,ntribs
-integer:: nrec_flow,nrec_heat
 integer:: n1,n2,nnd,nobs,ndays,nyear,nd_year,ntmp
 integer:: npart,nseg,nwpd 
 real::    dt_comp,dt_calc,dt_total,hpd,Q1,Q2,q_dot,q_surf,z
@@ -13,6 +12,9 @@ real(8):: time
 real   :: x,x_bndry,xd,xdd,xd_year,x_head,xwpd,year
 real,dimension(:),allocatable:: T_head,T_smth,T_trib
 real,dimension(:,:,:),allocatable:: temp
+!
+!
+logical:: DONE
 !
 ! Indices for lagrangian interpolation
 !
@@ -26,7 +28,7 @@ real, parameter:: pi=3.14159,rfac=304.8
 !
 contains
 !
-SUBROUTINE SYSTMM(temp_file,param_file)
+SUBROUTINE SYSTMM(temp_file)
 !
 use Block_Energy
 use Block_Hydro
@@ -35,11 +37,8 @@ use Block_Network
 Implicit None
 !
 character (len=200):: temp_file
-character (len=200):: param_file
 !
 integer::njb
-!
-logical:: DONE,LEAP_YEAR
 !
 real             :: tntrp
 real,dimension(4):: ta,xa
@@ -102,10 +101,7 @@ hpd=1./xwpd
 do nyear=start_year,end_year
   write(*,*) ' Simulation Year - ',nyear,start_year,end_year
   nd_year=365
-!
-! Check to see if it is a leap year
-!
-  if (LEAP_YEAR(nyear)) nd_year=366
+  if (mod(nyear,4).eq.0) nd_year=366
 !
 !     Day loop starts
 !
@@ -193,7 +189,7 @@ do nyear=start_year,end_year
             xa(ntrp)=x_dist(nr,npart)
             ta(ntrp)=temp(nr,npart,n1)
           end do
-          x=x_part(ns)
+          x=x_part(ns)
 !
 !     Call the interpolation function
 !
@@ -202,7 +198,7 @@ do nyear=start_year,end_year
 !
 300 continue
 350 continue
-!          dt_calc=dt_part(ns)
+!          dt_calc=dt_part(ns)
           nncell=segment_cell(nr,nstrt_elm(ns))
 !
 !    Set NCELL0 for purposes of tributary input
@@ -257,12 +253,11 @@ do nyear=start_year,end_year
 	    T_trib(nr)=T_0
 !
 !   Write all temperature output UW_JRY_11/08/2013
-!   The temperature is output at the beginning of the 
-!   reach.  It is, of course, possible to get output at
-!   other points by some additional code that keys on the
-!   value of ndelta (now a vector)(UW_JRY_11/08/2013)
+!   Write temperature for the current cell, as well as its
+!   corresponding headwater temperature (of the current reach),
+!   air temperature and flow discharge (commented by YM 1/20/2016))
 !
-            call WRITE(time,nd,nr,ncell,ns,T_0,T_head(nr),dbt(ncell))
+            call WRITE(time,nd,nr,ncell,ns,T_0,T_head(nr),dbt(ncell),Q_out(ncell))
 !
 !     End of computational element loop
 !
