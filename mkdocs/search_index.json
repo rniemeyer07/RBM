@@ -1,0 +1,124 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Welcome to the River Basin Model (RBM) website!\n\n\nOn this website you will find documentation both about the model and how to run the model.  (talk more about it)\n\n\nDocumentation:\n\n\n1.  \nAbout",
+            "title": "Home"
+        },
+        {
+            "location": "/#welcome-to-the-river-basin-model-rbm-website",
+            "text": "On this website you will find documentation both about the model and how to run the model.  (talk more about it)",
+            "title": "Welcome to the River Basin Model (RBM) website!"
+        },
+        {
+            "location": "/#documentation",
+            "text": "",
+            "title": "Documentation:"
+        },
+        {
+            "location": "/#1-about",
+            "text": "",
+            "title": "1.  About"
+        },
+        {
+            "location": "/about/publications/",
+            "text": "Publications\n\n\nModel Development and Description\n\n\nSun, N., J. Yearsley, N. Voisin, and D.P. Lettenmaier (2014): A spatially distributed model for the assessment of land use impacts on stream temperature in small urban watersheds, Hydrological Processes. DOI: 10.1002/hyp.10363.\n\n\nYearsley J. (2009): A semi-Lagrangian water temperature model for advection-dominated river systems, Wat. Resour. Res., 45. DOI: 10.1029/2008WR007629.\n\n\nYearsley J. (2012): A grid-based approach for simulating stream temperature. Wat. Resour. Res., 48. DOI: 10.1029/2011WR011515.\n\n\nModel Applications\n\n\nConnor, W.P., H.L. Burge, J.Yearsley and T.C. Bjornn (2003): Influence of flow and temperature on survival of wild subyearling Fall Chinook in the Snake River. North Amer. Journ. of Fisheries Management, 23(2):362-375.\n\n\nvan Vliet, M.T.H., W.H.P. Franssen, J. Yearsley, F. Ludwig, I. Haddeland, D. P. Lettenmaier, and P. Kabat (2013): Global river discharge and water temperature under climate change, Global Environmental Change.\n\n\nvan Vliet, M.T.H., J. Yearsley, W.H.P. Franssen, F. Ludwig, I. Haddeland, D.P. Lettenmaier, and P. Kabat (2012): Coupled daily streamflow and water temperature modelling in large river basins, Hydrol. Earth Syst. Sci. Discuss., 9, 8335-8374.\n\n\nvan Vliet, M.T.H., J. Yearsley, F. Ludwig, S. Vogele, D.P. Lettenmaier, and P. Kabat (2012): Vulnerability of US and European electricity supply to climate change, Nature Climate Change, doi:10.1038/nclimate1546.\n\n\nYearsley J. (2012): A grid-based approach for simulating stream temperature, Water Resour. Res., 48, W03506, doi:10.1029/2011WR011515.\n\n\nYearsley J. (2009): A semi-Lagrangian water temperature model for advection-dominated river systems, Water Resour. Res., 45, W12405, doi:10.1029/2008WR007629.\n\n\nTechnical Reports\n\n\nYearsley J. (2003): A preliminary analysis of the thermal regime of Dworshak Reservoir, EPA 910-R-03-011.\n\n\nYearsley J. (2003): Columbia River Temperature Assessment: Simulation of the thermal regime of Lake Roosevelt, EPA 910-03-003.\n\n\nYearsley J. (2003): Developing a Temperature Total Maximum Daily Load for the Columbia and Snake Rivers: Simulation Methods, EPA 910-R-03-003.\n\n\nYearsley J. (2001): Application of a 1-D Temperature Model to the Columbia River System & Application of a 1-D Temperature Model to the Columbia River System - Appendix B Model Tests.\n\n\nYearsley J., and C.M. Falter (2002): Analysis of ecological risk in the mid-Snake River using simulation methods. Appendix D in Ecological risk assessment for the Middle Snake River, EPA/600/R-01/017.",
+            "title": "Publications"
+        },
+        {
+            "location": "/about/publications/#publications",
+            "text": "Model Development and Description  Sun, N., J. Yearsley, N. Voisin, and D.P. Lettenmaier (2014): A spatially distributed model for the assessment of land use impacts on stream temperature in small urban watersheds, Hydrological Processes. DOI: 10.1002/hyp.10363.  Yearsley J. (2009): A semi-Lagrangian water temperature model for advection-dominated river systems, Wat. Resour. Res., 45. DOI: 10.1029/2008WR007629.  Yearsley J. (2012): A grid-based approach for simulating stream temperature. Wat. Resour. Res., 48. DOI: 10.1029/2011WR011515.  Model Applications  Connor, W.P., H.L. Burge, J.Yearsley and T.C. Bjornn (2003): Influence of flow and temperature on survival of wild subyearling Fall Chinook in the Snake River. North Amer. Journ. of Fisheries Management, 23(2):362-375.  van Vliet, M.T.H., W.H.P. Franssen, J. Yearsley, F. Ludwig, I. Haddeland, D. P. Lettenmaier, and P. Kabat (2013): Global river discharge and water temperature under climate change, Global Environmental Change.  van Vliet, M.T.H., J. Yearsley, W.H.P. Franssen, F. Ludwig, I. Haddeland, D.P. Lettenmaier, and P. Kabat (2012): Coupled daily streamflow and water temperature modelling in large river basins, Hydrol. Earth Syst. Sci. Discuss., 9, 8335-8374.  van Vliet, M.T.H., J. Yearsley, F. Ludwig, S. Vogele, D.P. Lettenmaier, and P. Kabat (2012): Vulnerability of US and European electricity supply to climate change, Nature Climate Change, doi:10.1038/nclimate1546.  Yearsley J. (2012): A grid-based approach for simulating stream temperature, Water Resour. Res., 48, W03506, doi:10.1029/2011WR011515.  Yearsley J. (2009): A semi-Lagrangian water temperature model for advection-dominated river systems, Water Resour. Res., 45, W12405, doi:10.1029/2008WR007629.  Technical Reports  Yearsley J. (2003): A preliminary analysis of the thermal regime of Dworshak Reservoir, EPA 910-R-03-011.  Yearsley J. (2003): Columbia River Temperature Assessment: Simulation of the thermal regime of Lake Roosevelt, EPA 910-03-003.  Yearsley J. (2003): Developing a Temperature Total Maximum Daily Load for the Columbia and Snake Rivers: Simulation Methods, EPA 910-R-03-003.  Yearsley J. (2001): Application of a 1-D Temperature Model to the Columbia River System & Application of a 1-D Temperature Model to the Columbia River System - Appendix B Model Tests.  Yearsley J., and C.M. Falter (2002): Analysis of ecological risk in the mid-Snake River using simulation methods. Appendix D in Ecological risk assessment for the Middle Snake River, EPA/600/R-01/017.",
+            "title": "Publications"
+        },
+        {
+            "location": "/about/hydro_models/",
+            "text": "Hydrology Models\n\n\nNote: more detailed steps are given in \"Running Model\" page.\n\n\nVariable Infiltration Capacity (VIC) \n\n[VIC] (https://github.com/UW-Hydro/VIC) is a large scale land-surface model used to simulate surface and subsurface water and energy fluxes.  Energy fluxes are passed to RBM to simulate river/reservoir surface fluxes. water fluxes are passed to RVIC to simulate streamflow.\n\n\n Distributed Hydrology Soil Vegetation Model (DHSVM) \n\n[DHSVM] (https://github.com/UW-Hydro/DHSVM) is a regional scale land-surface model used to simulate surface and subsurface water and energy fluxes.  Similar to VIC, energy fluxes are passed to RBM.\n\n\n RVIC \n\n\nRVIC\n is a streamflow routing model typically used as a post-processor with the Variable Infiltration Capacity (VIC) hydrology model.",
+            "title": "Hydrology Models"
+        },
+        {
+            "location": "/about/hydro_models/#hydrology-models",
+            "text": "Note: more detailed steps are given in \"Running Model\" page.  Variable Infiltration Capacity (VIC)  \n[VIC] (https://github.com/UW-Hydro/VIC) is a large scale land-surface model used to simulate surface and subsurface water and energy fluxes.  Energy fluxes are passed to RBM to simulate river/reservoir surface fluxes. water fluxes are passed to RVIC to simulate streamflow.   Distributed Hydrology Soil Vegetation Model (DHSVM)  \n[DHSVM] (https://github.com/UW-Hydro/DHSVM) is a regional scale land-surface model used to simulate surface and subsurface water and energy fluxes.  Similar to VIC, energy fluxes are passed to RBM.   RVIC   RVIC  is a streamflow routing model typically used as a post-processor with the Variable Infiltration Capacity (VIC) hydrology model.",
+            "title": "Hydrology Models"
+        },
+        {
+            "location": "/user_guide/basics/",
+            "text": "Basics\n\n\nFortran\n\n\nRBM is run with Fortran. As such it is run from the terminal window. If you have not used a computer through the terminal, there are a plethora of tutorials online for an introduction. Since Fortran is a compiled language, it must be compiled before it is run. Code is developed as \".f90\" (i.e. Begin.f90) files.  Those files are then \"compiled\" with a fortran compiler (see the [support page] (INSERT) for details on the compiler). And before code is compiled, previously compiled code must be \"cleaned\" from the directory. In RBM, we have developed a \"makefile\" that allows these steps to be done easily by first entering \n\n\nmake clean\n\n\n\n\nwhich cleans out previously compiled code, then enter\n\n\nmake\n\n\n\n\nwhich compiles all .f90 files in that directory.  \n\n\nOther",
+            "title": "Basics"
+        },
+        {
+            "location": "/user_guide/basics/#basics",
+            "text": "",
+            "title": "Basics"
+        },
+        {
+            "location": "/user_guide/basics/#fortran",
+            "text": "RBM is run with Fortran. As such it is run from the terminal window. If you have not used a computer through the terminal, there are a plethora of tutorials online for an introduction. Since Fortran is a compiled language, it must be compiled before it is run. Code is developed as \".f90\" (i.e. Begin.f90) files.  Those files are then \"compiled\" with a fortran compiler (see the [support page] (INSERT) for details on the compiler). And before code is compiled, previously compiled code must be \"cleaned\" from the directory. In RBM, we have developed a \"makefile\" that allows these steps to be done easily by first entering   make clean  which cleans out previously compiled code, then enter  make  which compiles all .f90 files in that directory.",
+            "title": "Fortran"
+        },
+        {
+            "location": "/user_guide/basics/#other",
+            "text": "",
+            "title": "Other"
+        },
+        {
+            "location": "/model_development/physics/",
+            "text": "Physical Processes\n\n\nOverview\n\n\n(write about how it's basic energy processes) \n\n\nSemi-Langrangian modeling and particle tracking\n\n\n(write stuff)\n\n\nSurface Energy Budget\n\n\n(write stuff)\n\n\nAdvection\n\n\n(advection from headwaters, upstream, effluent)",
+            "title": "Physical Processes"
+        },
+        {
+            "location": "/model_development/physics/#physical-processes",
+            "text": "",
+            "title": "Physical Processes"
+        },
+        {
+            "location": "/model_development/physics/#overview",
+            "text": "(write about how it's basic energy processes)",
+            "title": "Overview"
+        },
+        {
+            "location": "/model_development/physics/#semi-langrangian-modeling-and-particle-tracking",
+            "text": "(write stuff)",
+            "title": "Semi-Langrangian modeling and particle tracking"
+        },
+        {
+            "location": "/model_development/physics/#surface-energy-budget",
+            "text": "(write stuff)",
+            "title": "Surface Energy Budget"
+        },
+        {
+            "location": "/model_development/physics/#advection",
+            "text": "(advection from headwaters, upstream, effluent)",
+            "title": "Advection"
+        },
+        {
+            "location": "/support/contact/",
+            "text": "Contact\n\n\nThere is no formal support from the University of Washington Computational Hydrology Group for the RBM model.  For users interested in using or contributing to the RBM model, we recomend using the \nUW-Hydro/RBM github page\n to interact with the RBM development team.",
+            "title": "Contact"
+        },
+        {
+            "location": "/support/contact/#contact",
+            "text": "There is no formal support from the University of Washington Computational Hydrology Group for the RBM model.  For users interested in using or contributing to the RBM model, we recomend using the  UW-Hydro/RBM github page  to interact with the RBM development team.",
+            "title": "Contact"
+        },
+        {
+            "location": "/support/faq/",
+            "text": "Frequently Asked Questions\n\n\nIs there a C or Python Version of RBM?\n\n\nAt the moment, no. \n\n\nFortran is old, like the people who often use it, how can I run RBM on my computer?\n\n\nTrue, but Fortran is an efficient language and well suited for a model like RBM. For PC, the [GNU compiler] (https://gcc.gnu.org/fortran/) is free. For Mac, Fortran compilers can be found [here] (http://hpc.sourceforge.net/).",
+            "title": "Frequently Asked Questions"
+        },
+        {
+            "location": "/support/faq/#frequently-asked-questions",
+            "text": "",
+            "title": "Frequently Asked Questions"
+        },
+        {
+            "location": "/support/faq/#is-there-a-c-or-python-version-of-rbm",
+            "text": "At the moment, no.",
+            "title": "Is there a C or Python Version of RBM?"
+        },
+        {
+            "location": "/support/faq/#fortran-is-old-like-the-people-who-often-use-it-how-can-i-run-rbm-on-my-computer",
+            "text": "True, but Fortran is an efficient language and well suited for a model like RBM. For PC, the [GNU compiler] (https://gcc.gnu.org/fortran/) is free. For Mac, Fortran compilers can be found [here] (http://hpc.sourceforge.net/).",
+            "title": "Fortran is old, like the people who often use it, how can I run RBM on my computer?"
+        }
+    ]
+}
