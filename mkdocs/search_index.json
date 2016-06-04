@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/",
-            "text": "Welcome to the River Basin Model (RBM) website!\n\n\nOn this website you will find documentation both about the model and how to run the model.  (talk more about it)\n\n\nDocumentation:\n\n\n1.  \nAbout",
+            "text": "Welcome to the River Basin Model (RBM) website!\n\n\n\n\nOn this website you will find documentation both about the model and how to run the model.  (talk more about it)\n\n\nDocumentation Includes:\n\n\n1.  \nAbout\n\n\n2.  \nUser Guide\n\n\n3.  \nModel Development\n\n\n4.  \nSupport",
             "title": "Home"
         },
         {
@@ -11,14 +11,29 @@
             "title": "Welcome to the River Basin Model (RBM) website!"
         },
         {
-            "location": "/#documentation",
+            "location": "/#documentation-includes",
             "text": "",
-            "title": "Documentation:"
+            "title": "Documentation Includes:"
         },
         {
             "location": "/#1-about",
             "text": "",
             "title": "1.  About"
+        },
+        {
+            "location": "/#2-user-guide",
+            "text": "",
+            "title": "2.  User Guide"
+        },
+        {
+            "location": "/#3-model-development",
+            "text": "",
+            "title": "3.  Model Development"
+        },
+        {
+            "location": "/#4-support",
+            "text": "",
+            "title": "4.  Support"
         },
         {
             "location": "/about/publications/",
@@ -91,6 +106,21 @@
             "title": "Advection"
         },
         {
+            "location": "/model_development/open_source/",
+            "text": "RBM Model Open Source Philosophy\n\n\nRBM is Open Source software.\n\n\nOur rationale for moving the RBM model development to the open source community is that we want:\n- to encourage other researchers and developers to contribute to the RBM development,  and\n- to facilitate transparent development and use of the model\n\n\nUnsupported\n\n\nDue to limited resources, there is not official support for some of the tasks related to using RBM.  We expected that the user comes prepared with some understanding of the model and scientific computing.  As such, these items are specifically not supported by the RBM development community:\n\n\n\n\nBuilding and running the RBM model on platforms other than LINUX, UNIX, and OSX.\n\n\nUsing LINUX, UNIX, or OSX operating systems.\n\n\nWriting in the Fortran or Python programing language.\n\n\nDevelopment of project specific features.\n\n\nConfiguring individual model applications.",
+            "title": "Open Source"
+        },
+        {
+            "location": "/model_development/open_source/#rbm-model-open-source-philosophy",
+            "text": "RBM is Open Source software.  Our rationale for moving the RBM model development to the open source community is that we want:\n- to encourage other researchers and developers to contribute to the RBM development,  and\n- to facilitate transparent development and use of the model",
+            "title": "RBM Model Open Source Philosophy"
+        },
+        {
+            "location": "/model_development/open_source/#unsupported",
+            "text": "Due to limited resources, there is not official support for some of the tasks related to using RBM.  We expected that the user comes prepared with some understanding of the model and scientific computing.  As such, these items are specifically not supported by the RBM development community:   Building and running the RBM model on platforms other than LINUX, UNIX, and OSX.  Using LINUX, UNIX, or OSX operating systems.  Writing in the Fortran or Python programing language.  Development of project specific features.  Configuring individual model applications.",
+            "title": "Unsupported"
+        },
+        {
             "location": "/support/contact/",
             "text": "Contact\n\n\nThere is no formal support from the University of Washington Computational Hydrology Group for the RBM model.  For users interested in using or contributing to the RBM model, we recomend using the \nUW-Hydro/RBM github page\n to interact with the RBM development team.",
             "title": "Contact"
@@ -102,7 +132,7 @@
         },
         {
             "location": "/support/faq/",
-            "text": "Frequently Asked Questions\n\n\nIs there a C or Python Version of RBM?\n\n\nAt the moment, no. \n\n\nFortran is old, like the people who often use it, how can I run RBM on my computer?\n\n\nTrue, but Fortran is an efficient language and well suited for a model like RBM. For PC, the [GNU compiler] (https://gcc.gnu.org/fortran/) is free. For Mac, Fortran compilers can be found [here] (http://hpc.sourceforge.net/).",
+            "text": "Frequently Asked Questions\n\n\nIs there a C or Python Version of RBM?\n\n\nAt the moment, no. \n\n\nFortran is old, like the people who often use it, how can I run RBM on my computer?\n\n\nTrue, but Fortran is an efficient language and well suited for a model like RBM. For PC, the \nGNU compiler\n is free. For Mac, Fortran compilers can be found \nhere\n.",
             "title": "Frequently Asked Questions"
         },
         {
@@ -117,7 +147,7 @@
         },
         {
             "location": "/support/faq/#fortran-is-old-like-the-people-who-often-use-it-how-can-i-run-rbm-on-my-computer",
-            "text": "True, but Fortran is an efficient language and well suited for a model like RBM. For PC, the [GNU compiler] (https://gcc.gnu.org/fortran/) is free. For Mac, Fortran compilers can be found [here] (http://hpc.sourceforge.net/).",
+            "text": "True, but Fortran is an efficient language and well suited for a model like RBM. For PC, the  GNU compiler  is free. For Mac, Fortran compilers can be found  here .",
             "title": "Fortran is old, like the people who often use it, how can I run RBM on my computer?"
         }
     ]

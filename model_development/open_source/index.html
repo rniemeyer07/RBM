@@ -8,7 +8,7 @@
   
   <meta name="author" content="UW Hydro | Computational Hydrology">
   
-  <title>Frequently Asked Questions - River Basin Model (RBM)</title>
+  <title>Open Source - River Basin Model (RBM)</title>
   
 
   <link rel="shortcut icon" href="../../img/favicon.ico">
@@ -23,9 +23,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Frequently Asked Questions";
-    var mkdocs_page_input_path = "support/faq.md";
-    var mkdocs_page_url = "/support/faq/";
+    var mkdocs_page_name = "Open Source";
+    var mkdocs_page_input_path = "model_development/open_source.md";
+    var mkdocs_page_url = "/model_development/open_source/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js"></script>
@@ -105,14 +105,23 @@
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../model_development/physics/">Physical Processes</a>
+        <a class="" href="../physics/">Physical Processes</a>
         
     </li>
 
         
             
-    <li class="toctree-l1 ">
-        <a class="" href="../../model_development/open_source/">Open Source</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Open Source</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#rbm-model-open-source-philosophy">RBM Model Open Source Philosophy</a></li>
+                
+                    <li><a class="toctree-l4" href="#unsupported">Unsupported</a></li>
+                
+            
+            </ul>
         
     </li>
 
@@ -127,25 +136,14 @@
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../contact/">Contact</a>
+        <a class="" href="../../support/contact/">Contact</a>
         
     </li>
 
         
             
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Frequently Asked Questions</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
-                
-                    <li><a class="toctree-l4" href="#is-there-a-c-or-python-version-of-rbm">Is there a C or Python Version of RBM?</a></li>
-                
-                    <li><a class="toctree-l4" href="#fortran-is-old-like-the-people-who-often-use-it-how-can-i-run-rbm-on-my-computer">Fortran is old, like the people who often use it, how can I run RBM on my computer?</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../../support/faq/">Frequently Asked Questions</a>
         
     </li>
 
@@ -175,11 +173,11 @@
     
       
         
-          <li>Support &raquo;</li>
+          <li>Model Development &raquo;</li>
         
       
     
-    <li>Frequently Asked Questions</li>
+    <li>Open Source</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -189,11 +187,20 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
-<h3 id="is-there-a-c-or-python-version-of-rbm">Is there a C or Python Version of RBM?</h3>
-<p>At the moment, no. </p>
-<h3 id="fortran-is-old-like-the-people-who-often-use-it-how-can-i-run-rbm-on-my-computer">Fortran is old, like the people who often use it, how can I run RBM on my computer?</h3>
-<p>True, but Fortran is an efficient language and well suited for a model like RBM. For PC, the <a href="https://gcc.gnu.org/fortran/">GNU compiler</a> is free. For Mac, Fortran compilers can be found <a href="http://hpc.sourceforge.net/">here</a>. </p>
+                <h1 id="rbm-model-open-source-philosophy">RBM Model Open Source Philosophy</h1>
+<p>RBM is Open Source software.</p>
+<p>Our rationale for moving the RBM model development to the open source community is that we want:
+- to encourage other researchers and developers to contribute to the RBM development,  and
+- to facilitate transparent development and use of the model</p>
+<h2 id="unsupported">Unsupported</h2>
+<p>Due to limited resources, there is not official support for some of the tasks related to using RBM.  We expected that the user comes prepared with some understanding of the model and scientific computing.  As such, these items are specifically not supported by the RBM development community:</p>
+<ul>
+<li>Building and running the RBM model on platforms other than LINUX, UNIX, and OSX.</li>
+<li>Using LINUX, UNIX, or OSX operating systems.</li>
+<li>Writing in the Fortran or Python programing language.</li>
+<li>Development of project specific features.</li>
+<li>Configuring individual model applications.</li>
+</ul>
               
             </div>
           </div>
@@ -201,8 +208,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../../support/contact/" class="btn btn-neutral float-right" title="Contact">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-        <a href="../contact/" class="btn btn-neutral" title="Contact"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+        <a href="../physics/" class="btn btn-neutral" title="Physical Processes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -230,8 +239,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../contact/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../physics/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
+      
+        <span style="margin-left: 15px"><a href="../../support/contact/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
